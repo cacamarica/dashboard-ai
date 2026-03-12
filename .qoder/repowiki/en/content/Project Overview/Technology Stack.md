@@ -16,9 +16,16 @@
 - [src/hooks/useRedux.ts](file://src/hooks/useRedux.ts)
 - [src/components/inventory/UsageMetricsChart.tsx](file://src/components/inventory/UsageMetricsChart.tsx)
 - [src/components/inventory/TopMovingTable.tsx](file://src/components/inventory/TopMovingTable.tsx)
-- [src/services/analyticsService.ts](file://src/services/analyticsService.ts)
 - [src/lib/supabase.ts](file://src/lib/supabase.ts)
 </cite>
+
+## Update Summary
+**Changes Made**
+- Updated core technology versions to reflect Next.js 16.1.6, React 19.2.3, Material-UI 7.3.9, Redux Toolkit 2.11.2, and Recharts 3.8.0
+- Added comprehensive Supabase integration documentation for authentication and user management
+- Enhanced TypeScript configuration details and module resolution settings
+- Updated Tailwind CSS v4 integration with PostCSS plugin configuration
+- Expanded development tooling section with ESLint Next.js presets and React Compiler
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -32,13 +39,14 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document presents the technology stack powering the AI-powered inventory management dashboard. It focuses on the frontend architecture and technologies, including the React framework (Next.js), type safety (TypeScript), UI components (React and Material-UI), state management (Redux Toolkit), API data fetching (RTK Query), data visualization (Recharts), styling (Tailwind CSS), and HTTP client (Axios). It also covers development tools such as ESLint configuration, PostCSS integration, and build optimization via Next.js compiler. Version compatibility and upgrade considerations are included to guide maintainers and contributors.
+This document presents the technology stack powering the AI-powered inventory management dashboard. It focuses on the frontend architecture and technologies, including the React framework (Next.js 16.1.6), type safety (TypeScript 5.x), UI components (React 19.2.3 and Material-UI 7.3.9), state management (Redux Toolkit 2.11.2), API data fetching (RTK Query 2.11.2), data visualization (Recharts 3.8.0), styling (Tailwind CSS 4.x), and HTTP client (Axios 1.13.6). The stack also incorporates Supabase 2.99.1 for authentication and user management, alongside modern development tools including ESLint configuration, PostCSS integration, and Next.js React Compiler optimization. Version compatibility and upgrade considerations are included to guide maintainers and contributors.
 
 ## Project Structure
 The project follows a conventional Next.js 13+ App Router structure with a clear separation of concerns:
 - Application shell and global styles under src/app
 - Shared UI components under src/components
 - Store and API integrations under src/store
+- Authentication and database client under src/lib
 - Services for analytics and external integrations under src/services
 - Utilities and libraries under src/utils and src/lib
 - Global CSS and Tailwind configuration under src/app and root configs
@@ -59,8 +67,7 @@ STORE["src/store/store.ts"]
 INVENTORY_API["src/store/api/inventoryApi.ts"]
 USE_REDUX["src/hooks/useRedux.ts"]
 end
-subgraph "Services"
-ANALYTICS["src/services/analyticsService.ts"]
+subgraph "Authentication & Database"
 SUPABASE["src/lib/supabase.ts"]
 end
 subgraph "Tooling"
@@ -76,8 +83,7 @@ THEME --> TOP_MOVING
 THEME --> STORE
 STORE --> INVENTORY_API
 INVENTORY_API --> USAGE_CHART
-THEME --> ANALYTICS
-ANALYTICS --> SUPABASE
+THEME --> SUPABASE
 NEXTCONF --> LAYOUT
 TSCONFIG --> THEME
 TAILWIND --> GLOBALS
@@ -89,12 +95,11 @@ ESLINT --> THEME
 - [src/app/layout.tsx:1-31](file://src/app/layout.tsx#L1-L31)
 - [src/app/globals.css:1-27](file://src/app/globals.css#L1-L27)
 - [src/components/ui/Layout/ThemeProvider.tsx:1-100](file://src/components/ui/Layout/ThemeProvider.tsx#L1-L100)
-- [src/components/inventory/UsageMetricsChart.tsx:1-160](file://src/components/inventory/UsageMetricsChart.tsx#L1-L160)
-- [src/components/inventory/TopMovingTable.tsx:1-100](file://src/components/inventory/TopMovingTable.tsx#L1-L100)
+- [src/components/inventory/UsageMetricsChart.tsx:1-161](file://src/components/inventory/UsageMetricsChart.tsx#L1-L161)
+- [src/components/inventory/TopMovingTable.tsx:1-98](file://src/components/inventory/TopMovingTable.tsx#L1-L98)
 - [src/store/store.ts:1-27](file://src/store/store.ts#L1-L27)
 - [src/store/api/inventoryApi.ts:1-57](file://src/store/api/inventoryApi.ts#L1-L57)
 - [src/hooks/useRedux.ts:1-6](file://src/hooks/useRedux.ts#L1-L6)
-- [src/services/analyticsService.ts:1-134](file://src/services/analyticsService.ts#L1-L134)
 - [src/lib/supabase.ts:1-21](file://src/lib/supabase.ts#L1-L21)
 - [next.config.ts:1-9](file://next.config.ts#L1-L9)
 - [tsconfig.json:1-35](file://tsconfig.json#L1-L35)
@@ -116,15 +121,16 @@ This section documents the frontend technologies and their roles in the architec
 
 - Next.js 16.1.6
   - React framework providing the application shell, routing, and SSR/SSG capabilities.
-  - Build-time optimization and React Compiler enabled for improved performance.
-  - Version alignment with ESLint Next.js configuration ensures linting consistency.
+  - React Compiler enabled for improved performance and optimized component compilation.
+  - ESLint Next.js configuration ensures linting consistency across the codebase.
 
 - TypeScript 5.x
-  - Strict type checking for safer development and better DX.
+  - Strict type checking for safer development and better developer experience.
   - Bundler module resolution and isolated modules configured for modern builds.
+  - Path aliases configured for clean import statements (@/*).
 
 - React 19.2.3 and React DOM 19.2.3
-  - Client-side rendering with hooks and concurrent features.
+  - Latest React features with concurrent rendering and React Compiler optimization.
   - Integrated with Redux via react-redux for predictable state management.
 
 - Redux Toolkit 2.11.2 and react-redux 9.2.0
@@ -132,34 +138,45 @@ This section documents the frontend technologies and their roles in the architec
   - Store configured with RTK Query middleware for API caching and normalization.
 
 - Material-UI 7.3.9
-  - Design system providing themed components (buttons, cards, forms, tooltips).
+  - Comprehensive design system providing themed components (buttons, cards, forms, tooltips).
   - Unified theming via ThemeProvider with palette, typography, and component overrides.
+  - Emotion-based styling for optimal performance and SSR support.
 
 - RTK Query 2.11.2
   - Declarative API layer built on Redux Toolkit.
   - Provides caching, invalidation, and normalized data for inventory endpoints.
+  - Automatic refetching and background updates for real-time data.
 
 - Recharts 3.8.0
-  - Data visualization library for charts and responsive containers.
-  - Used for usage metrics and forecasting visualizations.
+  - Advanced data visualization library for charts and responsive containers.
+  - Used for usage metrics, forecasting visualizations, and dashboard analytics.
+  - Supports complex chart types with customizable themes and animations.
 
 - Tailwind CSS 4.x with @tailwindcss/postcss 4
   - Utility-first CSS framework integrated via PostCSS plugin.
   - Globally scoped styles and theme customization for consistent design tokens.
+  - Modern CSS features with @theme directive support.
 
 - Axios 1.13.6
-  - HTTP client used for outbound requests; complemented by RTK Query for internal API integration.
+  - HTTP client used for outbound requests and API communication.
+  - Complements RTK Query for direct HTTP needs and custom request handling.
+
+- Supabase 2.99.1
+  - Real-time database and authentication platform for user management.
+  - Provides secure credential storage and user preference management.
+  - Separates authentication concerns from inventory data processing.
 
 - Development Tools
   - ESLint with Next.js core-web-vitals and TypeScript configurations.
-  - PostCSS pipeline integrating Tailwind utilities.
+  - PostCSS pipeline integrating Tailwind utilities with modern CSS features.
   - Next.js React Compiler enabled for build-time optimizations.
 
 Version compatibility highlights:
-- Next.js 16.1.6 aligns with ESLint Next.js configuration.
+- Next.js 16.1.6 aligns with ESLint Next.js configuration and React 19.x ecosystem.
 - React 19.x and Redux Toolkit 2.x are compatible with modern bundlers and module resolutions.
 - Material-UI 7.x supports the latest React features and theming APIs.
-- Tailwind CSS 4.x integrates via PostCSS plugin; ensure Node.js LTS compatibility.
+- Tailwind CSS 4.x integrates via PostCSS plugin; requires Node.js LTS compatibility.
+- Supabase 2.x provides stable authentication and real-time database features.
 
 Upgrade considerations:
 - Keep Next.js aligned with ESLint Next.js config to avoid lint mismatches.
@@ -167,6 +184,7 @@ Upgrade considerations:
 - Material-UI 7.x requires React 18+; confirm React 19 compatibility before upgrading.
 - Tailwind 4.x requires PostCSS plugin updates; test build pipeline after upgrades.
 - RTK Query 2.x maintains backward compatibility; review breaking changes in minor releases.
+- Supabase major version upgrades require environment variable validation.
 
 **Section sources**
 - [package.json:1-39](file://package.json#L1-L39)
@@ -177,17 +195,18 @@ Upgrade considerations:
 - [eslint.config.mjs:1-19](file://eslint.config.mjs#L1-L19)
 
 ## Architecture Overview
-The frontend architecture centers around a theme provider that wraps the application, connecting Material-UI theming, Redux state, and shared UI components. RTK Query manages inventory data fetching and caching, while Recharts renders visualizations. Tailwind CSS provides utility-first styling, and ESLint/PostCSS support the development workflow.
+The frontend architecture centers around a theme provider that wraps the application, connecting Material-UI theming, Redux state, and shared UI components. RTK Query manages inventory data fetching and caching, while Recharts renders visualizations. Supabase handles authentication and user management separately from inventory data processing. Tailwind CSS provides utility-first styling, and ESLint/PostCSS support the development workflow with React Compiler optimization.
 
 ```mermaid
 graph TB
 CLIENT["Browser"]
-NEXT["Next.js App Router"]
+NEXT["Next.js 16.1.6"]
 THEME["Material-UI ThemeProvider"]
 REDUX["Redux Toolkit Store"]
 RTKQ["RTK Query Inventory API"]
 CHARTS["Recharts Components"]
-TAILWIND["Tailwind CSS"]
+TAILWIND["Tailwind CSS 4.x"]
+SUPABASE["Supabase Auth & DB"]
 CLIENT --> NEXT
 NEXT --> THEME
 THEME --> REDUX
@@ -195,19 +214,21 @@ REDUX --> RTKQ
 THEME --> CHARTS
 THEME --> TAILWIND
 RTKQ --> CHARTS
+THEME --> SUPABASE
 ```
 
 **Diagram sources**
 - [src/components/ui/Layout/ThemeProvider.tsx:1-100](file://src/components/ui/Layout/ThemeProvider.tsx#L1-L100)
 - [src/store/store.ts:1-27](file://src/store/store.ts#L1-L27)
 - [src/store/api/inventoryApi.ts:1-57](file://src/store/api/inventoryApi.ts#L1-L57)
-- [src/components/inventory/UsageMetricsChart.tsx:1-160](file://src/components/inventory/UsageMetricsChart.tsx#L1-L160)
+- [src/components/inventory/UsageMetricsChart.tsx:1-161](file://src/components/inventory/UsageMetricsChart.tsx#L1-L161)
 - [src/app/globals.css:1-27](file://src/app/globals.css#L1-L27)
+- [src/lib/supabase.ts:1-21](file://src/lib/supabase.ts#L1-L21)
 
 ## Detailed Component Analysis
 
 ### State Management with Redux Toolkit and RTK Query
-The store composes domain-specific reducers and integrates RTK Query’s reducer and middleware. The inventory API defines typed endpoints for top-moving materials, reorder alerts, usage metrics, and stock overview. Components consume queries via generated hook exports, enabling automatic caching and refetching.
+The store composes domain-specific reducers and integrates RTK Query's reducer and middleware. The inventory API defines typed endpoints for top-moving materials, reorder alerts, usage metrics, and stock overview. Components consume queries via generated hook exports, enabling automatic caching and refetching with intelligent data invalidation.
 
 ```mermaid
 classDiagram
@@ -246,7 +267,7 @@ Store --> AppState : "exposes typed state"
 - [src/hooks/useRedux.ts:1-6](file://src/hooks/useRedux.ts#L1-L6)
 
 ### Material-UI Theming and Layout
-The ThemeProvider encapsulates the application with a unified theme, palette, typography, and component overrides. It also wires the Redux store for global state access. The root layout applies the Inter font and global CSS, ensuring consistent styling across pages.
+The ThemeProvider encapsulates the application with a unified theme, palette, typography, and component overrides. It also wires the Redux store for global state access. The root layout applies the Inter font and global CSS, ensuring consistent styling across pages with support for dark mode and responsive design.
 
 ```mermaid
 sequenceDiagram
@@ -272,7 +293,7 @@ Theme-->>Browser : Rendered UI with theme and state
 - [src/components/ui/Layout/ThemeProvider.tsx:1-100](file://src/components/ui/Layout/ThemeProvider.tsx#L1-L100)
 
 ### Data Visualization with Recharts
-The UsageMetricsChart component demonstrates fetching usage metrics via RTK Query, rendering area charts with Recharts, and providing interactive controls for period selection. Material-UI components (Card, Typography, Select) integrate seamlessly with chart visuals.
+The UsageMetricsChart component demonstrates fetching usage metrics via RTK Query, rendering area charts with Recharts, and providing interactive controls for period selection. Material-UI components (Card, Typography, Select) integrate seamlessly with chart visuals, supporting both weekly and monthly data visualization with gradient fills and responsive containers.
 
 ```mermaid
 flowchart TD
@@ -291,15 +312,15 @@ ShowAlert --> End
 ```
 
 **Diagram sources**
-- [src/components/inventory/UsageMetricsChart.tsx:1-160](file://src/components/inventory/UsageMetricsChart.tsx#L1-L160)
+- [src/components/inventory/UsageMetricsChart.tsx:1-161](file://src/components/inventory/UsageMetricsChart.tsx#L1-L161)
 - [src/store/api/inventoryApi.ts:1-57](file://src/store/api/inventoryApi.ts#L1-L57)
 
 **Section sources**
-- [src/components/inventory/UsageMetricsChart.tsx:1-160](file://src/components/inventory/UsageMetricsChart.tsx#L1-L160)
+- [src/components/inventory/UsageMetricsChart.tsx:1-161](file://src/components/inventory/UsageMetricsChart.tsx#L1-L161)
 - [src/store/api/inventoryApi.ts:1-57](file://src/store/api/inventoryApi.ts#L1-L57)
 
 ### UI Components and Material-UI Integration
-TopMovingTable showcases Material-UI components (Table, TableRow, TableCell, Chip, Icons) to present structured inventory data with trend indicators. The component leverages theme-provided colors and spacing for consistent UX.
+TopMovingTable showcases Material-UI components (Table, TableRow, TableCell, Chip, Icons) to present structured inventory data with trend indicators. The component leverages theme-provided colors and spacing for consistent UX, supporting hover effects and responsive design for different screen sizes.
 
 ```mermaid
 classDiagram
@@ -321,15 +342,35 @@ TopMovingTable --> TopMovingMaterial : "renders rows"
 ```
 
 **Diagram sources**
-- [src/components/inventory/TopMovingTable.tsx:1-100](file://src/components/inventory/TopMovingTable.tsx#L1-L100)
+- [src/components/inventory/TopMovingTable.tsx:1-98](file://src/components/inventory/TopMovingTable.tsx#L1-L98)
 - [src/store/api/inventoryApi.ts:3-21](file://src/store/api/inventoryApi.ts#L3-L21)
 
 **Section sources**
-- [src/components/inventory/TopMovingTable.tsx:1-100](file://src/components/inventory/TopMovingTable.tsx#L1-L100)
+- [src/components/inventory/TopMovingTable.tsx:1-98](file://src/components/inventory/TopMovingTable.tsx#L1-L98)
 - [src/store/api/inventoryApi.ts:3-21](file://src/store/api/inventoryApi.ts#L3-L21)
 
+### Authentication and Database Integration with Supabase
+Supabase provides comprehensive authentication and user management capabilities, handling user credentials, preferences, and API key security. The client is configured with environment variables for secure deployment, separating authentication concerns from inventory data processing handled by n8n webhooks.
+
+```mermaid
+flowchart TD
+User["User Interaction"] --> Auth["Supabase Auth"]
+Auth --> Credentials["Credential Management"]
+Auth --> Preferences["User Preferences"]
+Credentials --> DB["Database Operations"]
+Preferences --> Settings["Dashboard Settings"]
+DB --> API["API Integration"]
+API --> Inventory["Inventory Data"]
+```
+
+**Diagram sources**
+- [src/lib/supabase.ts:1-21](file://src/lib/supabase.ts#L1-L21)
+
+**Section sources**
+- [src/lib/supabase.ts:1-21](file://src/lib/supabase.ts#L1-L21)
+
 ### Styling Pipeline with Tailwind CSS and PostCSS
-Global styles import Tailwind directives, and the PostCSS configuration enables the Tailwind plugin. Tailwind content scanning targets app, components, and pages directories. Theme customization extends colors and fonts for consistent design tokens.
+Global styles import Tailwind directives, and the PostCSS configuration enables the Tailwind plugin. Tailwind content scanning targets app, components, and pages directories. Theme customization extends colors and fonts for consistent design tokens, with support for dark mode and modern CSS features.
 
 ```mermaid
 flowchart TD
@@ -352,7 +393,7 @@ Scan --> Build["Build with Next.js"]
 - [tailwind.config.ts:1-46](file://tailwind.config.ts#L1-L46)
 
 ### Development Tooling
-ESLint configuration composes Next.js core-web-vitals and TypeScript presets, overriding defaults to include generated types and app directories. Next.js React Compiler is enabled for build-time optimizations.
+ESLint configuration composes Next.js core-web-vitals and TypeScript presets, overriding defaults to include generated types and app directories. Next.js React Compiler is enabled for build-time optimizations, providing automatic component optimization and improved performance.
 
 ```mermaid
 graph LR
@@ -371,7 +412,7 @@ Compiler --> Build["Optimized Builds"]
 - [next.config.ts:1-9](file://next.config.ts#L1-L9)
 
 ## Dependency Analysis
-The frontend stack exhibits cohesive coupling around the theme provider and store, with RTK Query mediating API interactions. Material-UI and Recharts depend on React and Redux for state-driven rendering. Tailwind CSS and PostCSS provide styling infrastructure. Axios complements RTK Query for direct HTTP needs.
+The frontend stack exhibits cohesive coupling around the theme provider and store, with RTK Query mediating API interactions. Material-UI and Recharts depend on React and Redux for state-driven rendering. Supabase provides authentication and database services independently. Tailwind CSS and PostCSS provide styling infrastructure. Axios complements RTK Query for direct HTTP needs.
 
 ```mermaid
 graph TB
@@ -380,6 +421,7 @@ REACT --> REDUX["Redux Toolkit 2.x"]
 REDUX --> RTKQ["RTK Query 2.x"]
 MUI --> CHARTS["Recharts 3.x"]
 MUI --> TAILWIND["Tailwind CSS 4.x"]
+SUPABASE["Supabase 2.x"] -.-> AUTH["Authentication"]
 AXIOS["Axios 1.x"] -.-> RTKQ
 NEXT["Next.js 16.x"] --> REACT
 NEXT --> ESLINT["ESLint + Next.js Presets"]
@@ -402,8 +444,8 @@ NEXT --> COMPILER["React Compiler"]
 - Material-UI Theming: Centralized theme reduces runtime style computations and improves render consistency.
 - Tailwind CSS: Purgeable utilities and minimal runtime styles improve bundle sizes; ensure content paths are accurate.
 - Type Safety: TypeScript strict mode and bundler configuration help catch performance-related issues early.
-
-[No sources needed since this section provides general guidance]
+- Supabase Optimization: Environment-based configuration for secure and efficient database operations.
+- Component-Level Caching: Recharts components benefit from React's memoization and RTK Query's caching strategy.
 
 ## Troubleshooting Guide
 Common issues and remedies:
@@ -412,6 +454,9 @@ Common issues and remedies:
 - Material-UI styles missing: Ensure CssBaseline is included and Tailwind content paths scan the relevant directories.
 - ESLint errors with Next.js: Align ESLint Next.js preset versions with Next.js; adjust overrides for generated types.
 - Build failures with Tailwind 4.x: Confirm PostCSS plugin is installed and configured; validate content globs.
+- Supabase authentication issues: Verify environment variables are properly set; check CORS settings and database policies.
+- React Compiler warnings: Review component composition and ensure proper TypeScript integration.
+- Redux state not persisting: Check store configuration and middleware setup for RTK Query integration.
 
 **Section sources**
 - [src/components/ui/Layout/ThemeProvider.tsx:1-100](file://src/components/ui/Layout/ThemeProvider.tsx#L1-L100)
@@ -419,6 +464,7 @@ Common issues and remedies:
 - [src/app/layout.tsx:1-31](file://src/app/layout.tsx#L1-L31)
 - [tailwind.config.ts:4-8](file://tailwind.config.ts#L4-L8)
 - [eslint.config.mjs:1-19](file://eslint.config.mjs#L1-L19)
+- [src/lib/supabase.ts:1-21](file://src/lib/supabase.ts#L1-L21)
 
 ## Conclusion
-The frontend stack combines Next.js, TypeScript, Material-UI, Redux Toolkit, RTK Query, Recharts, Tailwind CSS, and Axios to deliver a scalable, type-safe, and visually consistent inventory dashboard. The architecture emphasizes centralized state, declarative API fetching, and utility-first styling, supported by robust development tooling. Adhering to version compatibility and upgrade considerations ensures long-term maintainability and performance.
+The frontend stack combines Next.js 16.1.6, TypeScript 5.x, Material-UI 7.3.9, Redux Toolkit 2.11.2, RTK Query 2.11.2, Recharts 3.8.0, Tailwind CSS 4.x, Supabase 2.99.1, and Axios 1.13.6 to deliver a scalable, type-safe, and visually consistent inventory dashboard. The architecture emphasizes centralized state, declarative API fetching, advanced data visualization, and comprehensive authentication services, supported by robust development tooling with React Compiler optimization. Adhering to version compatibility and upgrade considerations ensures long-term maintainability and performance.

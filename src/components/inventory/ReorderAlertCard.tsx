@@ -91,7 +91,7 @@ export default function ReorderAlertCard({ alerts }: ReorderAlertCardProps) {
                         Reorder Point: <strong>{alert.reorderPoint}</strong>
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Suggested Order: {((alert as ReorderAlert & { suggested_quantity?: number }).suggestedQuantity ?? (alert as any).suggested_quantity)?.toLocaleString() ?? 'N/A'} units
+                        Suggested Order: {((alert as unknown as ReorderAlert & { suggested_quantity?: number }).suggestedQuantity ?? (alert as unknown as { suggested_quantity?: number }).suggested_quantity)?.toLocaleString() ?? 'N/A'} units
                       </Typography>
                     </Box>
                   }

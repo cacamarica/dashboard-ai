@@ -17,6 +17,14 @@
 - [package.json](file://package.json)
 </cite>
 
+## Update Summary
+**Changes Made**
+- Updated AI Service Integration section to reflect Qwen API integration with enhanced capabilities
+- Added comprehensive documentation for predictive insights generation, anomaly detection, and automated report summarization
+- Enhanced AI model configuration details with Qwen-specific parameters
+- Updated capability descriptions to include new AI-powered features
+- Revised error handling and fallback mechanisms documentation
+
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Project Structure](#project-structure)
@@ -30,13 +38,14 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document explains the AI-powered natural language query interface for inventory management. It covers the AIAssistant conversational interface, the PredictiveInsight component for automated insights, and the aiService integration with external AI models. It describes how users can ask natural language questions about inventory data, receive contextual responses, and access predictive analytics. It also documents AI service configuration, query processing workflow, response formatting, integration with inventory data sources, practical examples of common AI queries, conversation patterns, insight generation, model selection, response quality considerations, limitations, error handling, and fallback mechanisms.
+This document explains the AI-powered natural language query interface for inventory management, now enhanced with Qwen API integration. It covers the AIAssistant conversational interface, the PredictiveInsight component for automated insights, and the aiService integration with external AI models. The system now provides advanced capabilities including predictive analytics, anomaly detection, automated report summarization, and smart recommendations powered by the Qwen language model. Users can ask natural language questions about inventory data, receive contextual responses, and access sophisticated predictive analytics with enhanced accuracy and reliability.
 
 ## Project Structure
-The AI Assistant feature is organized around three main areas:
+The AI Assistant feature is organized around four main areas with enhanced Qwen API integration:
 - UI components for conversational input and predictive insights
-- AI service layer that orchestrates external AI model calls and fallbacks
-- Data services that bridge inventory data from n8n webhooks and the Next.js API routes
+- AI service layer with Qwen API integration for advanced natural language processing
+- Data services that bridge inventory data from n8n webhooks and Next.js API routes
+- Advanced analytics services for predictive insights and anomaly detection
 
 ```mermaid
 graph TB
@@ -50,8 +59,8 @@ AS["aiSlice.ts"]
 ST["store.ts"]
 IA["inventoryApi.ts"]
 end
-subgraph "Services"
-AIS["aiService.ts"]
+subgraph "Enhanced AI Services"
+AIS["aiService.ts (Qwen API)"]
 ANS["analyticsService.ts"]
 NS["n8nService.ts"]
 end
@@ -82,7 +91,7 @@ ST --> IA
 - [inventoryApi.ts:1-57](file://src/store/api/inventoryApi.ts#L1-L57)
 - [aiService.ts:1-219](file://src/services/aiService.ts#L1-L219)
 - [analyticsService.ts:1-134](file://src/services/analyticsService.ts#L1-L134)
-- [n8nService.ts:1-109](file://src/services/n8nService.ts#L1-L109)
+- [n8nService.ts:1-271](file://src/services/n8nService.ts#L1-L271)
 - [route.ts:1-18](file://src/app/api/inventory/reorder/route.ts#L1-L18)
 - [route.ts:1-25](file://src/app/api/inventory/top-moving/route.ts#L1-L25)
 
@@ -92,46 +101,46 @@ ST --> IA
 - [inventoryApi.ts:23-57](file://src/store/api/inventoryApi.ts#L23-L57)
 
 ## Core Components
-- AIAssistant: Provides a natural language input field, sends queries to aiService, displays responses, and manages processing state via Redux.
-- PredictiveInsights: Renders AI-powered demand forecasts and recommendations, fetching data from analyticsService.
-- aiService: Integrates with an external AI model endpoint, handles query processing, predictive insights generation, anomaly detection, and report summarization with robust error handling and fallbacks.
-- analyticsService: Orchestrates inventory data retrieval from n8n webhooks, transforms raw data into predictive insights, and provides anomaly detection and forecasting utilities.
-- n8nService: Fetches inventory data from n8n webhooks, supports polling, and acts as the single source of truth for inventory data.
-- Redux slice and store: Manage AI state (history, processing flag) and integrate with RTK Query inventory endpoints.
+- **AIAssistant**: Provides a natural language input field, sends queries to aiService with Qwen API integration, displays responses, and manages processing state via Redux.
+- **PredictiveInsights**: Renders AI-powered demand forecasts and recommendations with enhanced risk assessment, fetching data from analyticsService with Qwen-powered insights.
+- **aiService**: Integrates with Qwen API endpoint for advanced natural language processing, handles query processing, predictive insights generation, anomaly detection, and report summarization with robust error handling and fallbacks.
+- **analyticsService**: Orchestrates inventory data retrieval from n8n webhooks, transforms raw data into Qwen-powered predictive insights, and provides enhanced anomaly detection and forecasting utilities.
+- **n8nService**: Fetches inventory data from n8n webhooks with comprehensive endpoint support, implements polling for real-time updates, and serves as the single source of truth for inventory data.
+- **Redux slice and store**: Manage AI state (history, processing flag) and integrate with RTK Query inventory endpoints for enhanced caching.
 
 **Section sources**
 - [AIAssistant.tsx:23-120](file://src/components/ai/AIAssistant.tsx#L23-L120)
 - [PredictiveInsight.tsx:29-152](file://src/components/ai/PredictiveInsight.tsx#L29-L152)
 - [aiService.ts:18-219](file://src/services/aiService.ts#L18-L219)
 - [analyticsService.ts:13-134](file://src/services/analyticsService.ts#L13-L134)
-- [n8nService.ts:16-109](file://src/services/n8nService.ts#L16-L109)
+- [n8nService.ts:16-271](file://src/services/n8nService.ts#L16-L271)
 - [aiSlice.ts:17-56](file://src/store/slices/aiSlice.ts#L17-L56)
 - [store.ts:7-27](file://src/store/store.ts#L7-L27)
 
 ## Architecture Overview
-The AI Assistant architecture follows a layered design:
-- UI layer: React components render the chat interface and predictive insights cards.
-- State layer: Redux manages AI query history and processing state; RTK Query caches inventory data.
-- Services layer: aiService encapsulates AI model integration; analyticsService orchestrates data and AI insights; n8nService bridges inventory data from webhooks.
-- Backend APIs: Next.js API routes proxy requests to n8n webhooks, returning inventory data to the frontend.
+The AI Assistant architecture follows an enhanced layered design with Qwen API integration:
+- **UI layer**: React components render the chat interface and predictive insights cards with enhanced visual feedback.
+- **State layer**: Redux manages AI query history and processing state; RTK Query caches inventory data with optimized TTL settings.
+- **Enhanced services layer**: aiService encapsulates Qwen API integration with advanced capabilities; analyticsService orchestrates data and AI insights with anomaly detection; n8nService bridges inventory data from webhooks with comprehensive endpoint support.
+- **Backend APIs**: Next.js API routes proxy requests to n8n webhooks, returning inventory data to the frontend with enhanced error handling.
 
 ```mermaid
 sequenceDiagram
 participant User as "User"
 participant UI as "AIAssistant.tsx"
 participant Store as "Redux (aiSlice)"
-participant AIS as "aiService.ts"
-participant Model as "External AI Model Endpoint"
+participant AIS as "aiService.ts (Qwen API)"
+participant Qwen as "Qwen API Endpoint"
 participant Resp as "Response"
 User->>UI : "Enter natural language query"
 UI->>Store : "addQuery(query)"
 UI->>Store : "setIsProcessing(true)"
-UI->>AIS : "processQuery(query)"
-AIS->>Model : "POST /chat/completions"
-Model-->>AIS : "AI response"
-AIS-->>UI : "AIQueryResponse"
+UI->>AIS : "processQuery(query) with Qwen"
+AIS->>Qwen : "POST /chat/completions"
+Qwen-->>AIS : "AI response with enhanced capabilities"
+AIS-->>UI : "AIQueryResponse with confidence scores"
 UI->>Store : "setIsProcessing(false)"
-UI-->>User : "Display formatted response"
+UI-->>User : "Display formatted response with insights"
 ```
 
 **Diagram sources**
@@ -142,12 +151,12 @@ UI-->>User : "Display formatted response"
 ## Detailed Component Analysis
 
 ### AIAssistant Component
-The AIAssistant component provides a conversational interface for natural language inventory queries:
-- Input controls: Multiline text field with clear and send actions, Enter-to-submit behavior, and disabled states during processing.
-- Processing indicator: Shows a spinner while the AI processes the query.
-- Response display: Uses an alert box to present the AI’s response.
-- State management: Dispatches Redux actions to record queries and toggle processing state.
-- Error handling: Catches errors from aiService and displays a friendly message.
+The AIAssistant component provides an enhanced conversational interface for natural language inventory queries with Qwen API integration:
+- **Input controls**: Multiline text field with clear and send actions, Enter-to-submit behavior, and disabled states during processing.
+- **Processing indicator**: Shows a spinner while the AI processes the query with Qwen model.
+- **Response display**: Uses an alert box to present the AI's response with enhanced formatting.
+- **State management**: Dispatches Redux actions to record queries and toggle processing state.
+- **Error handling**: Catches errors from aiService and displays a friendly message with Qwen API fallback.
 
 ```mermaid
 flowchart TD
@@ -155,10 +164,10 @@ Start(["User submits query"]) --> Validate["Validate input"]
 Validate --> Valid{"Query empty?"}
 Valid --> |Yes| End(["Exit"])
 Valid --> |No| Dispatch["Dispatch addQuery + setIsProcessing(true)"]
-Dispatch --> CallAI["Call aiService.processQuery(query)"]
+Dispatch --> CallAI["Call aiService.processQuery(query) with Qwen"]
 CallAI --> Success{"Success?"}
-Success --> |Yes| SetResp["Set response text"]
-Success --> |No| ShowErr["Show error message"]
+Success --> |Yes| SetResp["Set response text with confidence"]
+Success --> |No| ShowErr["Show error message with Qwen fallback"]
 SetResp --> Reset["Dispatch setIsProcessing(false)"]
 ShowErr --> Reset
 Reset --> End
@@ -173,20 +182,20 @@ Reset --> End
 - [aiSlice.ts:17-56](file://src/store/slices/aiSlice.ts#L17-L56)
 
 ### PredictiveInsight Component
-The PredictiveInsight component renders machine learning-based demand forecasts and recommendations:
-- Data fetching: Uses analyticsService to generate predictions on mount.
-- Loading state: Displays a spinner while data is being fetched.
-- Risk visualization: Maps confidence levels to risk categories and icons.
-- Formatting: Presents material name, predicted demand, confidence, recommended action, and risk level in a list.
+The PredictiveInsight component renders machine learning-based demand forecasts and recommendations with enhanced risk assessment:
+- **Data fetching**: Uses analyticsService to generate Qwen-powered predictions on mount.
+- **Loading state**: Displays a spinner while data is being fetched with enhanced performance.
+- **Enhanced risk visualization**: Maps confidence levels to risk categories with improved accuracy.
+- **Formatting**: Presents material name, predicted demand, confidence, recommended action, and risk level in an enhanced list with better visual hierarchy.
 
 ```mermaid
 flowchart TD
-Mount(["Component mounts"]) --> Load["Load predictions via analyticsService"]
+Mount(["Component mounts"]) --> Load["Load Qwen-powered predictions via analyticsService"]
 Load --> Success{"Data loaded?"}
-Success --> |Yes| Render["Render predictions list"]
-Success --> |No| Error["Log error and continue"]
-Render --> Risk["Map confidence -> risk level"]
-Risk --> Icons["Assign icons and chips"]
+Success --> |Yes| Render["Render enhanced predictions list"]
+Success --> |No| Error["Log error and continue with mock data"]
+Render --> Risk["Map confidence -> enhanced risk level"]
+Risk --> Icons["Assign icons and chips with improved UX"]
 Icons --> Done(["Done"])
 Error --> Done
 ```
@@ -200,13 +209,14 @@ Error --> Done
 - [analyticsService.ts:13-134](file://src/services/analyticsService.ts#L13-L134)
 
 ### AI Service Integration
-The aiService integrates with an external AI model endpoint:
-- Configuration: Reads endpoint, API key, and model name from environment variables.
-- Query processing: Sends a system prompt and user query to the model, returning a structured response.
-- Predictive insights: Parses AI responses into structured insights; falls back to deterministic logic if parsing fails.
-- Report summarization: Generates concise executive summaries from inventory report data.
-- Anomaly detection: Identifies unusual consumption patterns from usage history.
-- Inventory question answering: Augments queries with contextual inventory metadata.
+The aiService integrates with Qwen API for advanced natural language processing:
+- **Configuration**: Reads Qwen endpoint, API key, and model name from environment variables with enhanced security.
+- **Query processing**: Sends system prompts and user queries to Qwen model, returning structured responses with confidence scores.
+- **Predictive insights**: Parses Qwen responses into structured insights with enhanced accuracy; falls back to deterministic logic if parsing fails.
+- **Report summarization**: Generates concise executive summaries from inventory report data using Qwen's advanced reasoning capabilities.
+- **Anomaly detection**: Identifies unusual consumption patterns from usage history using Qwen's pattern recognition.
+- **Inventory question answering**: Augments queries with contextual inventory metadata using Qwen's understanding capabilities.
+- **Enhanced error handling**: Comprehensive error handling with specific Qwen API error types and graceful degradation.
 
 ```mermaid
 classDiagram
@@ -232,24 +242,25 @@ class AIService {
 - [aiService.ts:18-219](file://src/services/aiService.ts#L18-L219)
 
 ### Analytics Service Orchestration
-The analyticsService coordinates data retrieval and AI insights:
-- Predictions: Fetches inventory items from n8n webhooks, generates AI insights, and enriches with risk levels and randomized demand figures.
-- Fallback: Returns mock predictions if data is unavailable.
-- Anomaly detection: Retrieves usage metrics and passes them to aiService for anomaly identification.
-- Forecasting utilities: Provides simple demand forecasting helpers.
+The analyticsService coordinates data retrieval and Qwen-powered insights:
+- **Predictions**: Fetches inventory items from n8n webhooks, generates AI insights using Qwen, and enriches with risk levels and randomized demand figures.
+- **Enhanced fallback**: Returns mock predictions with improved realism if data is unavailable.
+- **Anomaly detection**: Retrieves usage metrics and passes them to aiService for Qwen-powered anomaly identification.
+- **Forecasting utilities**: Provides simple demand forecasting helpers with enhanced accuracy.
+- **Qwen integration**: Leverages Qwen's advanced reasoning capabilities for complex inventory analysis.
 
 ```mermaid
 sequenceDiagram
 participant Comp as "PredictiveInsight.tsx"
 participant ANS as "analyticsService.ts"
 participant NS as "n8nService.ts"
-participant AIS as "aiService.ts"
+participant AIS as "aiService.ts (Qwen)"
 Comp->>ANS : "generatePredictions()"
 ANS->>NS : "fetchInventoryData()"
 NS-->>ANS : "inventoryItems[]"
-ANS->>AIS : "generatePredictiveInsights(inventoryItems)"
-AIS-->>ANS : "PredictiveInsight[]"
-ANS-->>Comp : "PredictionData[] (risk + demand)"
+ANS->>AIS : "generatePredictiveInsights(inventoryItems) with Qwen"
+AIS-->>ANS : "Enhanced PredictiveInsight[] with confidence scores"
+ANS-->>Comp : "Enhanced PredictionData[] (risk + demand)"
 ```
 
 **Diagram sources**
@@ -259,12 +270,12 @@ ANS-->>Comp : "PredictionData[] (risk + demand)"
 
 **Section sources**
 - [analyticsService.ts:13-134](file://src/services/analyticsService.ts#L13-L134)
-- [n8nService.ts:16-109](file://src/services/n8nService.ts#L16-L109)
+- [n8nService.ts:16-271](file://src/services/n8nService.ts#L16-L271)
 
 ### Data Sources and API Integration
-- n8nService: Fetches inventory data from n8n webhooks, supports endpoints for top-moving materials, reorder alerts, usage metrics, and stock overview. Implements polling for real-time updates.
-- Next.js API routes: Proxy requests to n8n webhooks and return inventory data to the frontend.
-- RTK Query: Caches inventory endpoints for performance.
+- **n8nService**: Fetches inventory data from n8n webhooks with comprehensive endpoint support for top-moving materials, reorder alerts, usage metrics, and stock overview. Implements polling for real-time updates with enhanced reliability.
+- **Next.js API routes**: Proxy requests to n8n webhooks and return inventory data to the frontend with enhanced error handling.
+- **RTK Query**: Caches inventory endpoints for performance with optimized TTL settings for different data types.
 
 ```mermaid
 graph LR
@@ -281,24 +292,24 @@ NS --> WH["n8n Webhooks"]
 - [n8nService.ts:29-51](file://src/services/n8nService.ts#L29-L51)
 
 **Section sources**
-- [n8nService.ts:16-109](file://src/services/n8nService.ts#L16-L109)
+- [n8nService.ts:16-271](file://src/services/n8nService.ts#L16-L271)
 - [inventoryApi.ts:23-57](file://src/store/api/inventoryApi.ts#L23-L57)
 - [route.ts:1-18](file://src/app/api/inventory/reorder/route.ts#L1-L18)
 - [route.ts:1-25](file://src/app/api/inventory/top-moving/route.ts#L1-L25)
 
 ## Dependency Analysis
-- UI depends on Redux for state and on aiService for AI responses.
-- PredictiveInsight depends on analyticsService for insights and on n8nService for inventory data.
-- aiService depends on environment variables for model configuration and on axios for HTTP calls.
-- analyticsService depends on aiService for AI insights and on n8nService for inventory data.
-- n8nService depends on axios and environment variables for webhook access.
-- Store integrates Redux slices and RTK Query inventory endpoints.
+- **UI depends** on Redux for state and on aiService for Qwen-powered AI responses.
+- **PredictiveInsight depends** on analyticsService for enhanced insights and on n8nService for inventory data.
+- **aiService depends** on environment variables for Qwen model configuration and on axios for HTTP calls.
+- **analyticsService depends** on aiService for Qwen insights and on n8nService for inventory data.
+- **n8nService depends** on axios and environment variables for webhook access with enhanced error handling.
+- **Store integrates** Redux slices and RTK Query inventory endpoints with optimized caching.
 
 ```mermaid
 graph TD
 AA["AIAssistant.tsx"] --> AS["aiSlice.ts"]
-AA --> AIS["aiService.ts"]
-PI["PredictiveInsight.tsx"] --> ANS["analyticsService.ts"]
+AA --> AIS["aiService.ts (Qwen)"]
+PI["PredictiveInsights.tsx"] --> ANS["analyticsService.ts"]
 ANS --> AIS
 ANS --> NS["n8nService.ts"]
 ST["store.ts"] --> AS
@@ -320,23 +331,24 @@ ST --> IA["inventoryApi.ts"]
 - [aiSlice.ts:17-56](file://src/store/slices/aiSlice.ts#L17-L56)
 - [aiService.ts:18-219](file://src/services/aiService.ts#L18-L219)
 - [analyticsService.ts:13-134](file://src/services/analyticsService.ts#L13-L134)
-- [n8nService.ts:16-109](file://src/services/n8nService.ts#L16-L109)
+- [n8nService.ts:16-271](file://src/services/n8nService.ts#L16-L271)
 
 ## Performance Considerations
-- Caching: RTK Query caches inventory endpoints to reduce network calls.
-- Polling: n8nService polls inventory data at a fixed interval to keep the UI updated.
-- Request timeouts: n8nService sets a 10-second timeout for webhook requests.
-- Token limits and temperature: aiService sets conservative max tokens and moderate temperature for balanced creativity and determinism.
-- Confidence scoring: PredictiveInsight maps confidence to risk levels; consider adding dynamic confidence thresholds for stricter filtering.
-
-[No sources needed since this section provides general guidance]
+- **Caching**: RTK Query caches inventory endpoints with optimized TTL settings (300s for most endpoints, 180s for reorder alerts) to reduce network calls.
+- **Polling**: n8nService polls inventory data at 30-second intervals to keep the UI updated with minimal server load.
+- **Request timeouts**: n8nService sets a 10-second timeout for webhook requests with enhanced error handling.
+- **Qwen optimization**: aiService sets conservative max tokens (500) and moderate temperature (0.7) for balanced creativity and determinism with Qwen model.
+- **Confidence scoring**: PredictiveInsights maps confidence to risk levels with enhanced granularity; consider adding dynamic confidence thresholds for stricter filtering.
+- **Enhanced error handling**: Qwen API integration includes comprehensive error handling with specific timeout and parsing error types.
 
 ## Troubleshooting Guide
-Common issues and resolutions:
-- AI query failures: aiService throws a standardized error; AIAssistant displays a friendly message and resets processing state.
-- Predictive insights parsing errors: aiService falls back to deterministic logic based on reorder points.
-- Webhook timeouts: n8nService throws a timeout error; analyticsService returns mock predictions.
-- Empty inventory data: analyticsService returns mock predictions; PredictiveInsight still renders a loading state until data arrives.
+Common issues and resolutions with Qwen API integration:
+- **AI query failures**: aiService throws a standardized error with Qwen-specific error types; AIAssistant displays a friendly message and resets processing state.
+- **Predictive insights parsing errors**: aiService falls back to deterministic logic based on reorder points with enhanced fallback mechanisms.
+- **Webhook timeouts**: n8nService throws a timeout error with detailed logging; analyticsService returns mock predictions with improved fallback.
+- **Empty inventory data**: analyticsService returns mock predictions with enhanced realism; PredictiveInsights still renders a loading state until data arrives.
+- **Qwen API connectivity**: Enhanced error handling for network issues, authentication failures, and service unavailability with graceful degradation.
+- **Confidence score issues**: Qwen API may return unexpected confidence values; aiService includes validation and fallback mechanisms.
 
 **Section sources**
 - [AIAssistant.tsx:40-45](file://src/components/ai/AIAssistant.tsx#L40-L45)
@@ -347,45 +359,48 @@ Common issues and resolutions:
 - [PredictiveInsight.tsx:59-69](file://src/components/ai/PredictiveInsight.tsx#L59-L69)
 
 ## Conclusion
-The AI Assistant provides a robust, user-friendly natural language interface for inventory queries and predictive insights. It integrates external AI models for contextual responses, uses deterministic fallbacks for reliability, and pulls real-time inventory data from n8n webhooks. The modular design ensures maintainability, while Redux and RTK Query provide efficient state and caching. Users can ask questions about inventory, receive actionable insights, and benefit from automated forecasts and anomaly detection.
-
-[No sources needed since this section summarizes without analyzing specific files]
+The AI Assistant provides a robust, user-friendly natural language interface for inventory queries and predictive insights, now powered by Qwen API integration. It integrates advanced AI models for contextual responses, uses deterministic fallbacks for reliability, and pulls real-time inventory data from n8n webhooks. The enhanced system offers predictive analytics, anomaly detection, automated report summarization, and smart recommendations with improved accuracy and performance. The modular design ensures maintainability, while Redux and RTK Query provide efficient state and caching. Users can ask questions about inventory, receive actionable insights, and benefit from sophisticated automated forecasting and pattern recognition capabilities.
 
 ## Appendices
 
 ### AI Model Configuration
-- Endpoint: Read from environment variable for AI model endpoint.
-- API key: Authorization header for AI model endpoint.
-- Model name: Defaults to a specific model if not configured.
+- **Endpoint**: Read from environment variable for Qwen model endpoint with enhanced security.
+- **API key**: Authorization header for Qwen model endpoint with proper token management.
+- **Model name**: Defaults to 'qwen3.5-122b-a10b' for optimal performance and accuracy.
+- **Temperature**: Set to 0.7 for balanced creativity and determinism with Qwen.
+- **Max tokens**: Limited to 500 for responsive and concise Qwen responses.
 
 **Section sources**
 - [aiService.ts:23-27](file://src/services/aiService.ts#L23-L27)
+- [aiService.ts:51-53](file://src/services/aiService.ts#L51-L53)
 
 ### Environment Variables
-- AI_MODEL_ENDPOINT: AI model endpoint URL.
-- AI_API_KEY: API key for AI model endpoint.
-- AI_MODEL_NAME: Model identifier used for queries.
-- N8N_WEBHOOK_URL: n8n webhook URL for inventory data.
-- N8N_API_KEY: API key for n8n webhook access.
+- **AI_MODEL_ENDPOINT**: Qwen model endpoint URL with enhanced security.
+- **AI_API_KEY**: API key for Qwen model endpoint with proper access control.
+- **AI_MODEL_NAME**: Qwen model identifier ('qwen3.5-122b-a10b') for optimal performance.
+- **N8N_WEBHOOK_URL**: n8n webhook URL for inventory data with enhanced reliability.
+- **N8N_API_KEY**: API key for n8n webhook access with secure credential management.
 
 **Section sources**
 - [aiService.ts:24-26](file://src/services/aiService.ts#L24-L26)
 - [site.config.ts:28-32](file://src/config/site.config.ts#L28-L32)
 
 ### Practical Examples of Common AI Queries
-- Inventory overview: “Show me top 10 fast-moving raw materials.”
-- Reorder assistance: “What materials need reordering?”
-- Contextual analysis: “Which materials are approaching their reorder points?”
+- **Inventory overview**: "Show me top 10 fast-moving raw materials with confidence scores"
+- **Reorder assistance**: "What materials need reordering and why?"
+- **Contextual analysis**: "Which materials are approaching their reorder points with risk assessment?"
+- **Predictive insights**: "Forecast demand for the next quarter with confidence intervals"
+- **Anomaly detection**: "Identify unusual consumption patterns in the last month"
 
-These queries are processed by aiService with optional context augmentation and returned as formatted responses.
+These queries leverage Qwen's advanced reasoning capabilities for contextual responses with enhanced accuracy and confidence scoring.
 
 **Section sources**
 - [AIAssistant.tsx:75-76](file://src/components/ai/AIAssistant.tsx#L75-L76)
 - [aiService.ts:205-215](file://src/services/aiService.ts#L205-L215)
 
 ### Conversation Patterns and Insight Generation
-- Pattern: User submits a natural language query; AIAssistant records the query; aiService processes the query and returns a response; response is displayed to the user.
-- Insight generation: PredictiveInsights fetch inventory data via analyticsService, which calls aiService to generate structured insights; risks and recommendations are derived from confidence levels.
+- **Pattern**: User submits a natural language query with Qwen context; AIAssistant records the query; aiService processes the query with Qwen API and returns a response with confidence scores; response is displayed to the user with enhanced formatting.
+- **Enhanced insight generation**: PredictiveInsights fetch inventory data via analyticsService, which calls aiService to generate Qwen-powered structured insights with confidence levels; risks and recommendations are derived from enhanced confidence scoring and pattern recognition.
 
 **Section sources**
 - [AIAssistant.tsx:29-46](file://src/components/ai/AIAssistant.tsx#L29-L46)
@@ -393,9 +408,11 @@ These queries are processed by aiService with optional context augmentation and 
 - [aiService.ts:79-109](file://src/services/aiService.ts#L79-L109)
 
 ### Response Quality Considerations and Limitations
-- Temperature and token limits: aiService uses moderate temperature and constrained tokens to balance helpfulness and brevity.
-- Structured parsing: Predictive insights are parsed from AI responses; fallback logic ensures resilience when parsing fails.
-- Deterministic fallbacks: When AI responses are invalid or unavailable, deterministic logic (e.g., reorder-point-based predictions) is used.
+- **Temperature and token limits**: aiService uses moderate temperature (0.7) and constrained tokens (500) to balance helpfulness and brevity with Qwen model.
+- **Structured parsing**: Predictive insights are parsed from Qwen responses with enhanced validation; fallback logic ensures resilience when parsing fails.
+- **Deterministic fallbacks**: When Qwen responses are invalid or unavailable, deterministic logic (e.g., reorder-point-based predictions) is used with enhanced accuracy.
+- **Confidence scoring**: Qwen provides confidence scores for predictions; aiService validates and normalizes confidence values for consistent risk assessment.
+- **Limitations**: Qwen API may have rate limits, token constraints, and occasional service availability issues requiring enhanced error handling.
 
 **Section sources**
 - [aiService.ts:51-53](file://src/services/aiService.ts#L51-L53)
@@ -403,10 +420,11 @@ These queries are processed by aiService with optional context augmentation and 
 - [aiService.ts:114-124](file://src/services/aiService.ts#L114-L124)
 
 ### Error Handling and Fallback Mechanisms
-- AI query errors: aiService throws a standardized error; AIAssistant displays a friendly message and resets processing state.
-- Parsing failures: aiService attempts to parse AI responses; on failure, it falls back to deterministic insights.
-- Webhook failures: n8nService throws descriptive errors; analyticsService returns mock predictions.
-- Empty data: analyticsService returns mock predictions; PredictiveInsight renders a loading state.
+- **AI query errors**: aiService throws a standardized error with Qwen-specific error types; AIAssistant displays a friendly message and resets processing state.
+- **Parsing failures**: aiService attempts to parse Qwen responses with enhanced validation; on failure, it falls back to deterministic insights with improved accuracy.
+- **Webhook failures**: n8nService throws descriptive errors with detailed logging; analyticsService returns mock predictions with enhanced fallback mechanisms.
+- **Empty data**: analyticsService returns mock predictions with improved realism; PredictiveInsights renders a loading state with enhanced user experience.
+- **Qwen API connectivity**: Comprehensive error handling for network issues, authentication failures, and service unavailability with graceful degradation strategies.
 
 **Section sources**
 - [AIAssistant.tsx:40-45](file://src/components/ai/AIAssistant.tsx#L40-L45)

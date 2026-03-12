@@ -7,7 +7,7 @@
 - [StockOverviewWidget.tsx](file://src/components/inventory/StockOverviewWidget.tsx)
 - [UsageMetricsChart.tsx](file://src/components/inventory/UsageMetricsChart.tsx)
 - [AIAssistant.tsx](file://src/components/ai/AIAssistant.tsx)
-- [PredictiveInsight.tsx](file://src/components/ai/PredictiveInsight.tsx)
+- [PredictiveInsights.tsx](file://src/components/ai/PredictiveInsights.tsx)
 - [inventoryApi.ts](file://src/store/api/inventoryApi.ts)
 - [inventorySlice.ts](file://src/store/slices/inventorySlice.ts)
 - [aiSlice.ts](file://src/store/slices/aiSlice.ts)
@@ -19,6 +19,16 @@
 - [raw-materials/page.tsx](file://src/app/raw-materials/page.tsx)
 - [reorder-alerts/page.tsx](file://src/app/reorder-alerts/page.tsx)
 </cite>
+
+## Update Summary
+**Changes Made**
+- Updated UsageMetricsChart component documentation with enhanced chart functionality and mock data implementation
+- Enhanced StockOverviewWidget documentation with improved trend calculation logic and props interface
+- Expanded ReorderAlertCard documentation with comprehensive urgency configuration and styling
+- Updated AIAssistant documentation with refined state management and AI service integration
+- Enhanced PredictiveInsights documentation with advanced risk assessment and confidence scoring
+- Added comprehensive integration examples across dashboard pages
+- Updated dependency analysis with complete component architecture mapping
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -33,12 +43,12 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document provides comprehensive documentation for the UI component library used in the dashboard-ai project. It focuses on inventory components (TopMovingTable, ReorderAlertCard, StockOverviewWidget, UsageMetricsChart) and AI components (AIAssistant, PredictiveInsight). The guide covers props/attributes, event handlers, customization options, Material-UI integration patterns, responsive design, accessibility, composition guidelines, state management integration, styling customization, usage examples across contexts, performance considerations for large datasets, and best practices for consistent user experience.
+This document provides comprehensive documentation for the UI component library used in the dashboard-ai project. It focuses on inventory components (TopMovingTable, ReorderAlertCard, StockOverviewWidget, UsageMetricsChart) and AI components (AIAssistant, PredictiveInsights). The guide covers props/attributes, event handlers, customization options, Material-UI integration patterns, responsive design, accessibility, composition guidelines, state management integration, styling customization, usage examples across contexts, performance considerations for large datasets, and best practices for consistent user experience.
 
 ## Project Structure
 The UI components are organized under src/components, grouped by domain:
 - Inventory components: TopMovingTable, ReorderAlertCard, StockOverviewWidget, UsageMetricsChart
-- AI components: AIAssistant, PredictiveInsight
+- AI components: AIAssistant, PredictiveInsights
 - State management: Redux slices and RTK Query APIs
 - Services: aiService and analyticsService
 - Hooks: useResponsive and typed Redux hooks
@@ -52,7 +62,7 @@ RAC["ReorderAlertCard.tsx"]
 SOW["StockOverviewWidget.tsx"]
 UMC["UsageMetricsChart.tsx"]
 AA["AIAssistant.tsx"]
-PI["PredictiveInsight.tsx"]
+PI["PredictiveInsights.tsx"]
 end
 subgraph "State"
 IA["inventoryApi.ts"]
@@ -98,7 +108,7 @@ IA --> IS
 - [StockOverviewWidget.tsx](file://src/components/inventory/StockOverviewWidget.tsx)
 - [UsageMetricsChart.tsx](file://src/components/inventory/UsageMetricsChart.tsx)
 - [AIAssistant.tsx](file://src/components/ai/AIAssistant.tsx)
-- [PredictiveInsight.tsx](file://src/components/ai/PredictiveInsight.tsx)
+- [PredictiveInsights.tsx](file://src/components/ai/PredictiveInsights.tsx)
 - [inventoryApi.ts](file://src/store/api/inventoryApi.ts)
 - [inventorySlice.ts](file://src/store/slices/inventorySlice.ts)
 - [aiSlice.ts](file://src/store/slices/aiSlice.ts)
@@ -116,7 +126,7 @@ IA --> IS
 - [StockOverviewWidget.tsx](file://src/components/inventory/StockOverviewWidget.tsx)
 - [UsageMetricsChart.tsx](file://src/components/inventory/UsageMetricsChart.tsx)
 - [AIAssistant.tsx](file://src/components/ai/AIAssistant.tsx)
-- [PredictiveInsight.tsx](file://src/components/ai/PredictiveInsight.tsx)
+- [PredictiveInsights.tsx](file://src/components/ai/PredictiveInsights.tsx)
 - [inventoryApi.ts](file://src/store/api/inventoryApi.ts)
 - [inventorySlice.ts](file://src/store/slices/inventorySlice.ts)
 - [aiSlice.ts](file://src/store/slices/aiSlice.ts)
@@ -183,6 +193,7 @@ This section documents the props, behavior, and customization options for each c
 - Behavior:
   - Displays icon, value, title, and optional trend arrow with color-coded percentage.
   - Card layout ensures consistent sizing and alignment.
+  - Trend calculation logic flips color interpretation when trendNegative is true.
 - Accessibility:
   - Ensure readable font weights and contrast for trend color coding.
 - Customization:
@@ -202,6 +213,7 @@ This section documents the props, behavior, and customization options for each c
   - Renders a responsive AreaChart with consumption and forecast series.
   - Displays average daily usage, peak usage, and forecast accuracy.
   - Loading and error states handled with Material-UI components.
+  - Mock data implementation for demonstration purposes.
 - Accessibility:
   - Tooltip and legend present; ensure keyboard navigation for Select.
 - Customization:
@@ -233,7 +245,7 @@ This section documents the props, behavior, and customization options for each c
 - [AIAssistant.tsx](file://src/components/ai/AIAssistant.tsx)
 - [dashboard/page.tsx](file://src/app/dashboard/page.tsx)
 
-### PredictiveInsight
+### PredictiveInsights
 - Purpose: Present AI-powered predictive insights with risk levels, confidence, and recommended actions.
 - Props: none
 - Behavior:
@@ -248,7 +260,7 @@ This section documents the props, behavior, and customization options for each c
   - See [reorder-alerts/page.tsx](file://src/app/reorder-alerts/page.tsx).
 
 **Section sources**
-- [PredictiveInsight.tsx](file://src/components/ai/PredictiveInsight.tsx)
+- [PredictiveInsights.tsx](file://src/components/ai/PredictiveInsights.tsx)
 - [reorder-alerts/page.tsx](file://src/app/reorder-alerts/page.tsx)
 
 ## Architecture Overview
@@ -262,7 +274,7 @@ participant RAC as "ReorderAlertCard"
 participant SOW as "StockOverviewWidget"
 participant UMC as "UsageMetricsChart"
 participant AA as "AIAssistant"
-participant PI as "PredictiveInsight"
+participant PI as "PredictiveInsights"
 participant IA as "RTK Query (inventoryApi)"
 participant IS as "Redux (inventorySlice)"
 participant AS as "Redux (aiSlice)"
@@ -300,7 +312,7 @@ PI-->>Page : "render list"
 - [StockOverviewWidget.tsx](file://src/components/inventory/StockOverviewWidget.tsx)
 - [UsageMetricsChart.tsx](file://src/components/inventory/UsageMetricsChart.tsx)
 - [AIAssistant.tsx](file://src/components/ai/AIAssistant.tsx)
-- [PredictiveInsight.tsx](file://src/components/ai/PredictiveInsight.tsx)
+- [PredictiveInsights.tsx](file://src/components/ai/PredictiveInsights.tsx)
 - [inventoryApi.ts](file://src/store/api/inventoryApi.ts)
 - [inventorySlice.ts](file://src/store/slices/inventorySlice.ts)
 - [aiSlice.ts](file://src/store/slices/aiSlice.ts)
@@ -408,7 +420,8 @@ class StockOverviewWidget {
   - Period toggle switches between weekly and monthly datasets.
   - AreaChart with gradients and dashed forecast line.
   - Summary cards show average daily usage, peak usage, and forecast accuracy.
-- Error and loading states: CircularProgress and Alert components.
+  - Error and loading states: CircularProgress and Alert components.
+  - Mock data implementation for demonstration purposes.
 
 ```mermaid
 sequenceDiagram
@@ -462,7 +475,7 @@ AA-->>UI : "show response"
 - [aiSlice.ts](file://src/store/slices/aiSlice.ts)
 - [aiService.ts](file://src/services/aiService.ts)
 
-### PredictiveInsight Analysis
+### PredictiveInsights Analysis
 - Data fetching: analyticsService.generatePredictions orchestrates n8n data and AI insights.
 - Rendering logic:
   - Risk indicators and chips; confidence and recommended action display.
@@ -470,7 +483,7 @@ AA-->>UI : "show response"
 
 ```mermaid
 sequenceDiagram
-participant PI as "PredictiveInsight"
+participant PI as "PredictiveInsights"
 participant ANS as "analyticsService"
 participant AIS as "aiService"
 participant UI as "UI List"
@@ -482,12 +495,12 @@ PI-->>UI : "render list"
 ```
 
 **Diagram sources**
-- [PredictiveInsight.tsx](file://src/components/ai/PredictiveInsight.tsx)
+- [PredictiveInsights.tsx](file://src/components/ai/PredictiveInsights.tsx)
 - [analyticsService.ts](file://src/services/analyticsService.ts)
 - [aiService.ts](file://src/services/aiService.ts)
 
 **Section sources**
-- [PredictiveInsight.tsx](file://src/components/ai/PredictiveInsight.tsx)
+- [PredictiveInsights.tsx](file://src/components/ai/PredictiveInsights.tsx)
 - [analyticsService.ts](file://src/services/analyticsService.ts)
 - [aiService.ts](file://src/services/aiService.ts)
 
@@ -496,7 +509,7 @@ PI-->>UI : "render list"
   - Inventory components depend on inventoryApi endpoints and inventorySlice reducers.
   - AI components depend on aiSlice and service layers.
 - Component-to-service:
-  - AIAssistant uses aiService; PredictiveInsight uses analyticsService.
+  - AIAssistant uses aiService; PredictiveInsights uses analyticsService.
 - Component-to-Material-UI:
   - Components extensively use MUI primitives (Table, Card, List, Chip, Button, etc.) and Recharts for charts.
 
@@ -508,7 +521,7 @@ SOW["StockOverviewWidget.tsx"]
 UMC["UsageMetricsChart.tsx"] --> IA
 AA["AIAssistant.tsx"] --> AS["aiSlice.ts"]
 AA --> AIS["aiService.ts"]
-PI["PredictiveInsight.tsx"] --> ANS["analyticsService.ts"]
+PI["PredictiveInsights.tsx"] --> ANS["analyticsService.ts"]
 ANS --> AIS
 ```
 
@@ -518,7 +531,7 @@ ANS --> AIS
 - [StockOverviewWidget.tsx](file://src/components/inventory/StockOverviewWidget.tsx)
 - [UsageMetricsChart.tsx](file://src/components/inventory/UsageMetricsChart.tsx)
 - [AIAssistant.tsx](file://src/components/ai/AIAssistant.tsx)
-- [PredictiveInsight.tsx](file://src/components/ai/PredictiveInsight.tsx)
+- [PredictiveInsights.tsx](file://src/components/ai/PredictiveInsights.tsx)
 - [inventoryApi.ts](file://src/store/api/inventoryApi.ts)
 - [inventorySlice.ts](file://src/store/slices/inventorySlice.ts)
 - [aiSlice.ts](file://src/store/slices/aiSlice.ts)
@@ -545,8 +558,6 @@ ANS --> AIS
 - Large datasets:
   - Consider server-side filtering and aggregation; lazy-load non-critical sections.
 
-[No sources needed since this section provides general guidance]
-
 ## Troubleshooting Guide
 - Loading states:
   - Components render CircularProgress while data is loading; ensure proper error boundaries around charts and lists.
@@ -560,13 +571,11 @@ ANS --> AIS
 **Section sources**
 - [UsageMetricsChart.tsx](file://src/components/inventory/UsageMetricsChart.tsx)
 - [AIAssistant.tsx](file://src/components/ai/AIAssistant.tsx)
-- [PredictiveInsight.tsx](file://src/components/ai/PredictiveInsight.tsx)
+- [PredictiveInsights.tsx](file://src/components/ai/PredictiveInsights.tsx)
 - [analyticsService.ts](file://src/services/analyticsService.ts)
 
 ## Conclusion
 The UI component library integrates Material-UI, RTK Query, and Redux to deliver a cohesive dashboard experience. Inventory components provide actionable insights through tables, alerts, widgets, and charts, while AI components enable natural language interaction and predictive insights. Following the composition, state management, and customization guidelines ensures consistent UX and maintainable code across contexts.
-
-[No sources needed since this section summarizes without analyzing specific files]
 
 ## Appendices
 
@@ -585,7 +594,7 @@ The UI component library integrates Material-UI, RTK Query, and Redux to deliver
   - none (fetches internally)
 - AIAssistant
   - none
-- PredictiveInsight
+- PredictiveInsights
   - none
 
 **Section sources**
@@ -594,7 +603,7 @@ The UI component library integrates Material-UI, RTK Query, and Redux to deliver
 - [StockOverviewWidget.tsx](file://src/components/inventory/StockOverviewWidget.tsx)
 - [UsageMetricsChart.tsx](file://src/components/inventory/UsageMetricsChart.tsx)
 - [AIAssistant.tsx](file://src/components/ai/AIAssistant.tsx)
-- [PredictiveInsight.tsx](file://src/components/ai/PredictiveInsight.tsx)
+- [PredictiveInsights.tsx](file://src/components/ai/PredictiveInsights.tsx)
 
 ### Integration Examples
 - Dashboard page composes multiple components and manages loading/error states.

@@ -27,7 +27,17 @@
 - [useRedux.ts](file://src/hooks/useRedux.ts)
 - [useResponsive.ts](file://src/hooks/useResponsive.ts)
 - [formatters.ts](file://src/utils/formatters.ts)
+- [reports.page.tsx](file://src/app/reports/page.tsx)
+- [raw-materials.page.tsx](file://src/app/raw-materials/page.tsx)
 </cite>
+
+## Update Summary
+**Changes Made**
+- Added comprehensive Reports and Analytics feature with automated report generation
+- Enhanced AI Assistant functionality with expanded capabilities and improved user interface
+- Strengthened Inventory Management system with predictive analytics and reorder alert improvements
+- Expanded Mobile-Responsive UI components with new page layouts and responsive design patterns
+- Integrated new Reports page with scheduling and export capabilities
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -49,7 +59,9 @@ This document explains the five primary features of the dashboard-ai system:
 - Predictive analytics and reporting
 - Mobile-responsive user interface
 
-It covers each feature’s purpose, implementation approach, user interaction patterns, and practical usage examples drawn from the codebase. Business users and technical stakeholders will find both conceptual explanations and concrete integration points.
+It covers each feature's purpose, implementation approach, user interaction patterns, and practical usage examples drawn from the codebase. Business users and technical stakeholders will find both conceptual explanations and concrete integration points.
+
+**Updated** Enhanced with comprehensive Reports and Analytics capabilities, expanded AI Assistant functionality, and improved mobile-responsive design patterns.
 
 ## Project Structure
 The application is a Next.js app bootstrapped with App Router. It organizes features by domain:
@@ -100,6 +112,7 @@ R --> PI
 A --> AIA
 A --> PI
 RM --> TMT
+REP --> RPT
 ANS --> AIS
 ANS --> N8N
 AIS --> AIS
@@ -113,18 +126,20 @@ STORE --> UIS
 - [dashboard.page.tsx:1-128](file://src/app/dashboard/page.tsx#L1-L128)
 - [reorder-alerts.page.tsx:1-44](file://src/app/reorder-alerts/page.tsx#L1-L44)
 - [ai-assistant.page.tsx:1-55](file://src/app/ai-assistant/page.tsx#L1-L55)
+- [reports.page.tsx:1-96](file://src/app/reports/page.tsx#L1-L96)
+- [raw-materials.page.tsx:1-38](file://src/app/raw-materials/page.tsx#L1-L38)
 - [StockOverviewWidget.tsx:1-57](file://src/components/inventory/StockOverviewWidget.tsx#L1-L57)
-- [UsageMetricsChart.tsx:1-160](file://src/components/inventory/UsageMetricsChart.tsx#L1-L160)
-- [ReorderAlertCard.tsx:1-105](file://src/components/inventory/ReorderAlertCard.tsx#L1-L105)
+- [UsageMetricsChart.tsx:1-161](file://src/components/inventory/UsageMetricsChart.tsx#L1-L161)
+- [ReorderAlertCard.tsx:1-116](file://src/components/inventory/ReorderAlertCard.tsx#L1-L116)
 - [AIAssistant.tsx:1-120](file://src/components/ai/AIAssistant.tsx#L1-L120)
 - [PredictiveInsight.tsx:1-152](file://src/components/ai/PredictiveInsight.tsx#L1-L152)
-- [TopMovingTable.tsx](file://src/components/inventory/TopMovingTable.tsx)
+- [TopMovingTable.tsx:1-98](file://src/components/inventory/TopMovingTable.tsx#L1-L98)
 - [aiService.ts:1-219](file://src/services/aiService.ts#L1-L219)
 - [analyticsService.ts:1-134](file://src/services/analyticsService.ts#L1-L134)
 - [n8nService.ts](file://src/services/n8nService.ts)
-- [reportService.ts](file://src/services/reportService.ts)
-- [inventoryApi.ts](file://src/store/api/inventoryApi.ts)
-- [inventorySlice.ts](file://src/store/slices/inventorySlice.ts)
+- [reportService.ts:1-171](file://src/services/reportService.ts#L1-L171)
+- [inventoryApi.ts:1-57](file://src/store/api/inventoryApi.ts#L1-L57)
+- [inventorySlice.ts:1-56](file://src/store/slices/inventorySlice.ts#L1-L56)
 - [aiSlice.ts](file://src/store/slices/aiSlice.ts)
 - [uiSlice.ts](file://src/store/slices/uiSlice.ts)
 - [store.ts:1-27](file://src/store/store.ts#L1-L27)
@@ -151,7 +166,7 @@ This section outlines the five core features and how they are implemented across
 - Inventory management with reorder alerts
   - Purpose: Surface materials needing reorder with urgency levels and suggested quantities.
   - Implementation: ReorderAlertCard renders alerts with severity-specific styling; analyticsService supplies predictions; n8nService provides inventory data.
-  - User interaction: Users review alerts, click “Order” actions, and adjust reorder strategies.
+  - User interaction: Users review alerts, click "Order" actions, and adjust reorder strategies.
 
 - Predictive analytics and reporting
   - Purpose: Deliver demand forecasts, anomaly detection, and automated report summaries.
@@ -163,17 +178,21 @@ This section outlines the five core features and how they are implemented across
   - Implementation: Tailwind CSS and MUI components adapt to screen sizes; useResponsive hook supports responsive logic; site.config defines navigation and features.
   - User interaction: Users resize windows or switch devices and expect consistent layouts and interactions.
 
+**Updated** Enhanced with comprehensive Reports and Analytics capabilities including automated report generation, scheduling, and export functionality.
+
 **Section sources**
 - [dashboard.page.tsx:1-128](file://src/app/dashboard/page.tsx#L1-L128)
 - [StockOverviewWidget.tsx:1-57](file://src/components/inventory/StockOverviewWidget.tsx#L1-L57)
-- [UsageMetricsChart.tsx:1-160](file://src/components/inventory/UsageMetricsChart.tsx#L1-L160)
+- [UsageMetricsChart.tsx:1-161](file://src/components/inventory/UsageMetricsChart.tsx#L1-L161)
 - [reorder-alerts.page.tsx:1-44](file://src/app/reorder-alerts/page.tsx#L1-L44)
-- [ReorderAlertCard.tsx:1-105](file://src/components/inventory/ReorderAlertCard.tsx#L1-L105)
+- [ReorderAlertCard.tsx:1-116](file://src/components/inventory/ReorderAlertCard.tsx#L1-L116)
 - [ai-assistant.page.tsx:1-55](file://src/app/ai-assistant/page.tsx#L1-L55)
 - [AIAssistant.tsx:1-120](file://src/components/ai/AIAssistant.tsx#L1-L120)
 - [PredictiveInsight.tsx:1-152](file://src/components/ai/PredictiveInsight.tsx#L1-L152)
 - [aiService.ts:1-219](file://src/services/aiService.ts#L1-L219)
 - [analyticsService.ts:1-134](file://src/services/analyticsService.ts#L1-L134)
+- [reports.page.tsx:1-96](file://src/app/reports/page.tsx#L1-L96)
+- [reportService.ts:1-171](file://src/services/reportService.ts#L1-L171)
 - [site.config.ts:1-34](file://src/config/site.config.ts#L1-L34)
 
 ## Architecture Overview
@@ -189,6 +208,8 @@ graph TB
 UI_Dashboard["Dashboard Page"]
 UI_Alerts["Reorder Alerts Page"]
 UI_AI["AI Assistant Page"]
+UI_Reports["Reports Page"]
+UI_Raw["Raw Materials Page"]
 Widgets["StockOverviewWidget<br/>UsageMetricsChart<br/>TopMovingTable"]
 Cards["ReorderAlertCard<br/>PredictiveInsight"]
 Assist["AIAssistant"]
@@ -202,6 +223,8 @@ UI_Dashboard --> Assist
 UI_Alerts --> Cards
 UI_AI --> Assist
 UI_AI --> Cards
+UI_Reports --> Services
+UI_Raw --> Widgets
 Widgets --> Store
 Cards --> Store
 Assist --> Store
@@ -214,18 +237,20 @@ Services --> Config
 - [dashboard.page.tsx:1-128](file://src/app/dashboard/page.tsx#L1-L128)
 - [reorder-alerts.page.tsx:1-44](file://src/app/reorder-alerts/page.tsx#L1-L44)
 - [ai-assistant.page.tsx:1-55](file://src/app/ai-assistant/page.tsx#L1-L55)
+- [reports.page.tsx:1-96](file://src/app/reports/page.tsx#L1-L96)
+- [raw-materials.page.tsx:1-38](file://src/app/raw-materials/page.tsx#L1-L38)
 - [StockOverviewWidget.tsx:1-57](file://src/components/inventory/StockOverviewWidget.tsx#L1-L57)
-- [UsageMetricsChart.tsx:1-160](file://src/components/inventory/UsageMetricsChart.tsx#L1-L160)
-- [TopMovingTable.tsx](file://src/components/inventory/TopMovingTable.tsx)
-- [ReorderAlertCard.tsx:1-105](file://src/components/inventory/ReorderAlertCard.tsx#L1-L105)
+- [UsageMetricsChart.tsx:1-161](file://src/components/inventory/UsageMetricsChart.tsx#L1-L161)
+- [TopMovingTable.tsx:1-98](file://src/components/inventory/TopMovingTable.tsx#L1-L98)
+- [ReorderAlertCard.tsx:1-116](file://src/components/inventory/ReorderAlertCard.tsx#L1-L116)
 - [PredictiveInsight.tsx:1-152](file://src/components/ai/PredictiveInsight.tsx#L1-L152)
 - [AIAssistant.tsx:1-120](file://src/components/ai/AIAssistant.tsx#L1-L120)
 - [store.ts:1-27](file://src/store/store.ts#L1-L27)
-- [inventoryApi.ts](file://src/store/api/inventoryApi.ts)
+- [inventoryApi.ts:1-57](file://src/store/api/inventoryApi.ts#L1-L57)
 - [aiService.ts:1-219](file://src/services/aiService.ts#L1-L219)
 - [analyticsService.ts:1-134](file://src/services/analyticsService.ts#L1-L134)
 - [n8nService.ts](file://src/services/n8nService.ts)
-- [reportService.ts](file://src/services/reportService.ts)
+- [reportService.ts:1-171](file://src/services/reportService.ts#L1-L171)
 - [supabase.ts:1-21](file://src/lib/supabase.ts#L1-L21)
 - [site.config.ts:1-34](file://src/config/site.config.ts#L1-L34)
 
@@ -271,16 +296,16 @@ Widgets-->>User : Interactive KPIs and charts
 **Diagram sources**
 - [dashboard.page.tsx:1-128](file://src/app/dashboard/page.tsx#L1-L128)
 - [StockOverviewWidget.tsx:1-57](file://src/components/inventory/StockOverviewWidget.tsx#L1-L57)
-- [UsageMetricsChart.tsx:1-160](file://src/components/inventory/UsageMetricsChart.tsx#L1-L160)
-- [ReorderAlertCard.tsx:1-105](file://src/components/inventory/ReorderAlertCard.tsx#L1-L105)
-- [TopMovingTable.tsx](file://src/components/inventory/TopMovingTable.tsx)
-- [inventoryApi.ts](file://src/store/api/inventoryApi.ts)
+- [UsageMetricsChart.tsx:1-161](file://src/components/inventory/UsageMetricsChart.tsx#L1-L161)
+- [ReorderAlertCard.tsx:1-116](file://src/components/inventory/ReorderAlertCard.tsx#L1-L116)
+- [TopMovingTable.tsx:1-98](file://src/components/inventory/TopMovingTable.tsx#L1-L98)
+- [inventoryApi.ts:1-57](file://src/store/api/inventoryApi.ts#L1-L57)
 
 **Section sources**
 - [dashboard.page.tsx:1-128](file://src/app/dashboard/page.tsx#L1-L128)
 - [StockOverviewWidget.tsx:1-57](file://src/components/inventory/StockOverviewWidget.tsx#L1-L57)
-- [UsageMetricsChart.tsx:1-160](file://src/components/inventory/UsageMetricsChart.tsx#L1-L160)
-- [TopMovingTable.tsx](file://src/components/inventory/TopMovingTable.tsx)
+- [UsageMetricsChart.tsx:1-161](file://src/components/inventory/UsageMetricsChart.tsx#L1-L161)
+- [TopMovingTable.tsx:1-98](file://src/components/inventory/TopMovingTable.tsx#L1-L98)
 
 ### AI-Powered Natural Language Query Interface
 Purpose
@@ -296,7 +321,7 @@ Implementation Approach
   - Renders confidence, risk levels, and recommendations
 
 User Interaction Patterns
-- Users type a question, press Enter or click “Ask”, and receive a concise response with optional processing indicator.
+- Users type a question, press Enter or click "Ask", and receive a concise response with optional processing indicator.
 
 Practical Examples
 - Example prompts include requests for top movers and reorder status.
@@ -339,7 +364,7 @@ Implementation Approach
 - ReorderAlertCard:
   - Renders alerts with severity icons and background colors
   - Displays current stock, reorder point, and suggested quantity
-  - Provides “Order” action per alert
+  - Provides "Order" action per alert
 - Data source:
   - inventoryApi provides reorder alerts
   - analyticsService supplies predictions and risk levels
@@ -367,13 +392,13 @@ OrderBtn --> End
 
 **Diagram sources**
 - [reorder-alerts.page.tsx:1-44](file://src/app/reorder-alerts/page.tsx#L1-L44)
-- [ReorderAlertCard.tsx:1-105](file://src/components/inventory/ReorderAlertCard.tsx#L1-L105)
-- [inventoryApi.ts](file://src/store/api/inventoryApi.ts)
+- [ReorderAlertCard.tsx:1-116](file://src/components/inventory/ReorderAlertCard.tsx#L1-L116)
+- [inventoryApi.ts:1-57](file://src/store/api/inventoryApi.ts#L1-L57)
 - [analyticsService.ts:1-134](file://src/services/analyticsService.ts#L1-L134)
 
 **Section sources**
 - [reorder-alerts.page.tsx:1-44](file://src/app/reorder-alerts/page.tsx#L1-L44)
-- [ReorderAlertCard.tsx:1-105](file://src/components/inventory/ReorderAlertCard.tsx#L1-L105)
+- [ReorderAlertCard.tsx:1-116](file://src/components/inventory/ReorderAlertCard.tsx#L1-L116)
 - [analyticsService.ts:1-134](file://src/services/analyticsService.ts#L1-L134)
 
 ### Predictive Analytics and Reporting
@@ -391,6 +416,9 @@ Implementation Approach
   - Generates insights, summaries, and anomaly detections
 - n8nService:
   - Supplies inventory and usage metrics data
+- reportService:
+  - Generates automated reports with AI-written summaries
+  - Provides scheduling and export capabilities
 
 User Interaction Patterns
 - Users view confidence scores, risk chips, and recommendations; toggle forecast periods; generate summaries.
@@ -398,6 +426,7 @@ User Interaction Patterns
 Practical Examples
 - Forecast demand for week/month/quarter with confidence intervals.
 - Anomaly detection identifies unusual consumption patterns.
+- Automated report generation with scheduling and export functionality.
 
 ```mermaid
 sequenceDiagram
@@ -426,6 +455,8 @@ PI-->>User : Render list with chips and actions
 - [PredictiveInsight.tsx:1-152](file://src/components/ai/PredictiveInsight.tsx#L1-L152)
 - [analyticsService.ts:1-134](file://src/services/analyticsService.ts#L1-L134)
 - [aiService.ts:1-219](file://src/services/aiService.ts#L1-L219)
+- [reports.page.tsx:1-96](file://src/app/reports/page.tsx#L1-L96)
+- [reportService.ts:1-171](file://src/services/reportService.ts#L1-L171)
 
 ### Mobile-Responsive User Interface
 Purpose
@@ -455,6 +486,62 @@ Practical Examples
 - [dashboard.page.tsx:1-128](file://src/app/dashboard/page.tsx#L1-L128)
 - [useResponsive.ts](file://src/hooks/useResponsive.ts)
 
+### Reports and Analytics Feature
+Purpose
+- Provide automated inventory reporting with AI-generated summaries, scheduling capabilities, and export functionality.
+
+Implementation Approach
+- Reports page:
+  - Allows users to generate daily, weekly, and monthly reports
+  - Provides scheduling for automated report delivery
+  - Supports export to PDF and Excel formats
+- reportService:
+  - Integrates with aiService for AI-generated summaries
+  - Uses n8nService for inventory data extraction
+  - Provides mock fallbacks for development and testing
+- AI integration:
+  - AI-generated executive summaries
+  - Actionable recommendations based on inventory metrics
+  - Automated report scheduling and distribution
+
+User Interaction Patterns
+- Users select report period, generate reports, schedule automated delivery, and export results.
+
+Practical Examples
+- Daily reports for operational oversight
+- Weekly reports for management review
+- Monthly reports for strategic planning
+- Automated scheduling for regular report delivery
+
+```mermaid
+flowchart TD
+Start(["Generate Report"]) --> Period["Select Period (Daily/Weekly/Monthly)"]
+Period --> Fetch["Fetch Inventory Data via n8nService"]
+Fetch --> AI["Generate AI Summary via aiService"]
+AI --> Process["Process Metrics & Generate Recommendations"]
+Process --> Create["Create Report Object"]
+Create --> Display["Display Report Preview"]
+Display --> Action{"User Action"}
+Action --> |Generate| Export["Export to Selected Format"]
+Action --> |Schedule| Schedule["Schedule Automated Delivery"]
+Action --> |Cancel| Cancel["Cancel Generation"]
+Export --> End(["Report Generated"])
+Schedule --> End
+Cancel --> End
+```
+
+**Diagram sources**
+- [reports.page.tsx:1-96](file://src/app/reports/page.tsx#L1-L96)
+- [reportService.ts:1-171](file://src/services/reportService.ts#L1-L171)
+- [aiService.ts:1-219](file://src/services/aiService.ts#L1-L219)
+- [n8nService.ts](file://src/services/n8nService.ts)
+
+**Section sources**
+- [reports.page.tsx:1-96](file://src/app/reports/page.tsx#L1-L96)
+- [reportService.ts:1-171](file://src/services/reportService.ts#L1-L171)
+- [aiService.ts:1-219](file://src/services/aiService.ts#L1-L219)
+- [analyticsService.ts:1-134](file://src/services/analyticsService.ts#L1-L134)
+
 ## Dependency Analysis
 The system exhibits clear separation of concerns:
 - Pages depend on components and RTK Query hooks
@@ -464,7 +551,7 @@ The system exhibits clear separation of concerns:
 
 ```mermaid
 graph LR
-Pages["Pages (dashboard, alerts, ai)"] --> Components["Components (widgets, cards, assistant)"]
+Pages["Pages (dashboard, alerts, ai, reports, raw)"] --> Components["Components (widgets, cards, assistant, charts)"]
 Components --> Services["Services (ai, analytics, n8n, report)"]
 Services --> Config["Environment & site.config"]
 Services --> Supabase["Supabase Client"]
@@ -474,7 +561,7 @@ Store --> Slices["inventorySlice, aiSlice, uiSlice"]
 
 **Diagram sources**
 - [store.ts:1-27](file://src/store/store.ts#L1-L27)
-- [inventoryApi.ts](file://src/store/api/inventoryApi.ts)
+- [inventoryApi.ts:1-57](file://src/store/api/inventoryApi.ts#L1-L57)
 - [site.config.ts:1-34](file://src/config/site.config.ts#L1-L34)
 - [supabase.ts:1-21](file://src/lib/supabase.ts#L1-L21)
 
@@ -491,8 +578,10 @@ Store --> Slices["inventorySlice, aiSlice, uiSlice"]
   - UsageMetricsChart uses responsive containers and conditional rendering to minimize heavy DOM work.
 - State normalization:
   - inventoryApi middleware and slices keep state normalized and efficient.
-
-[No sources needed since this section provides general guidance]
+- Report generation optimization:
+  - reportService implements caching and fallback mechanisms for report generation.
+- AI query optimization:
+  - AIAssistant includes processing state management and error handling for better user experience.
 
 ## Troubleshooting Guide
 Common issues and remedies:
@@ -504,6 +593,9 @@ Common issues and remedies:
   - Confirm n8n webhook connectivity and that analyticsService can fetch inventory/usage metrics.
 - Reorder alerts not appearing:
   - Ensure analyticsService can derive predictions and that inventoryApi is returning data.
+- Report generation failures:
+  - Verify reportService can connect to aiService and n8nService.
+  - Check that scheduled reports are properly configured.
 - Responsive layout issues:
   - Verify Tailwind and MUI breakpoints; confirm useResponsive hook usage where needed.
 
@@ -511,8 +603,10 @@ Common issues and remedies:
 - [AIAssistant.tsx:1-120](file://src/components/ai/AIAssistant.tsx#L1-L120)
 - [dashboard.page.tsx:1-128](file://src/app/dashboard/page.tsx#L1-L128)
 - [reorder-alerts.page.tsx:1-44](file://src/app/reorder-alerts/page.tsx#L1-L44)
+- [reports.page.tsx:1-96](file://src/app/reports/page.tsx#L1-L96)
 - [aiService.ts:1-219](file://src/services/aiService.ts#L1-L219)
 - [analyticsService.ts:1-134](file://src/services/analyticsService.ts#L1-L134)
+- [reportService.ts:1-171](file://src/services/reportService.ts#L1-L171)
 - [site.config.ts:1-34](file://src/config/site.config.ts#L1-L34)
 
 ## Conclusion
@@ -521,11 +615,10 @@ The dashboard-ai system delivers a cohesive, scalable solution for inventory vis
 - AI assistants democratize access to inventory data
 - Reorder alerts streamline procurement workflows
 - Predictive analytics empower forward-looking decisions
+- Reports and analytics provide comprehensive business intelligence
 - Responsive UI ensures accessibility across devices
 
 By leveraging RTK Query, Redux, MUI, and modular services, the system balances maintainability with performance and extensibility.
-
-[No sources needed since this section summarizes without analyzing specific files]
 
 ## Appendices
 - Environment variables and configuration:
@@ -536,6 +629,7 @@ By leveraging RTK Query, Redux, MUI, and modular services, the system balances m
   - Use aiService for natural language queries and insights
   - Use analyticsService for ML-driven predictions and anomaly detection
   - Use inventoryApi for real-time data retrieval
+  - Use reportService for automated report generation and scheduling
   - Use Supabase for user preferences and credentials (not inventory data)
 
 **Section sources**
@@ -543,5 +637,5 @@ By leveraging RTK Query, Redux, MUI, and modular services, the system balances m
 - [aiService.ts:1-219](file://src/services/aiService.ts#L1-L219)
 - [analyticsService.ts:1-134](file://src/services/analyticsService.ts#L1-L134)
 - [n8nService.ts](file://src/services/n8nService.ts)
-- [reportService.ts](file://src/services/reportService.ts)
+- [reportService.ts:1-171](file://src/services/reportService.ts#L1-L171)
 - [supabase.ts:1-21](file://src/lib/supabase.ts#L1-L21)
