@@ -17,12 +17,12 @@
 
 ## Update Summary
 **Changes Made**
-- Enhanced Next.js configuration with React Compiler optimization
-- Expanded environment variable documentation for comprehensive AI service setup
-- Added multi-package manager support documentation for development workflows
-- Updated TypeScript configuration with modern bundler module resolution
-- Improved Tailwind CSS configuration with enhanced content scanning
-- Strengthened ESLint configuration with Next.js core-web-vitals integration
+- Enhanced Next.js configuration with React Compiler optimization for improved component rendering performance
+- Strengthened ESLint configuration with core-web-vitals integration for performance monitoring
+- Expanded environment variable documentation for comprehensive AI service setup with model endpoints and API keys
+- Updated TypeScript configuration with modern bundler module resolution and enhanced path aliasing
+- Integrated Tailwind CSS v4 with PostCSS configuration for advanced styling capabilities
+- Improved multi-package manager support with consistent development workflows across npm, yarn, and pnpm
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -37,16 +37,16 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document explains the configuration and environment setup for the dashboard-ai project. It covers the site configuration system (branding, feature flags, application metadata), Next.js configuration with React Compiler optimization, TypeScript compilation settings with modern bundler resolution, Tailwind CSS customization patterns, and comprehensive environment variable setup for AI services, n8n webhooks, Supabase credentials, and analytics. The documentation now includes multi-package manager support for development workflows, enhanced build optimization settings, and robust deployment configurations with security considerations for credential management.
+This document explains the configuration and environment setup for the dashboard-ai project. It covers the site configuration system (branding, feature flags, application metadata), Next.js configuration with React Compiler optimization, TypeScript compilation settings with modern bundler resolution, Tailwind CSS customization patterns, and comprehensive environment variable setup for AI services, n8n webhooks, Supabase credentials, and analytics. The documentation now includes enhanced build optimization settings, robust deployment configurations with security considerations for credential management, and multi-package manager support for flexible development workflows.
 
 ## Project Structure
 The configuration surface spans several files with enhanced optimization and environment management:
 - Site configuration defines branding, navigation, feature flags, caching TTLs, and n8n integration settings with environment variable overrides.
-- Next.js configuration enables React Compiler for performance optimization.
+- Next.js configuration enables React Compiler for performance optimization during development and production builds.
 - TypeScript configuration enforces strictness with modern bundler module resolution and path aliases.
-- Tailwind CSS configuration extends theme colors, fonts, and comprehensive content scanning.
-- PostCSS integrates Tailwind plugin with v4 compatibility.
-- ESLint configuration follows Next.js defaults with enhanced core-web-vitals integration.
+- Tailwind CSS configuration extends theme colors, fonts, and comprehensive content scanning with v4 compatibility.
+- PostCSS integrates Tailwind plugin with v4 compatibility for seamless styling integration.
+- ESLint configuration follows Next.js defaults with enhanced core-web-vitals integration for performance monitoring.
 - Services consume environment variables for AI endpoints, n8n webhooks, and Supabase client initialization with comprehensive error handling.
 
 ```mermaid
@@ -109,9 +109,9 @@ PM --> EC
 - Site configuration centralizes branding, navigation, feature flags, caching TTLs, and n8n integration defaults with environment variable overrides. It exposes runtime-safe defaults for optional n8n settings and defines cache TTLs for different dashboard segments.
 - Next.js configuration enables React Compiler to improve rendering performance and component optimization during development and production builds.
 - TypeScript configuration enforces strict type checking, incremental compilation, and modern bundler module resolution with path aliases for efficient development workflow.
-- Tailwind CSS configuration extends color palettes, fonts, and comprehensive content scanning across pages, components, and app directories for optimal CSS generation.
+- Tailwind CSS configuration extends color palettes, fonts, and comprehensive content scanning across pages, components, and app directories for optimal CSS generation with v4 compatibility.
 - PostCSS configuration wires Tailwind plugin with v4 compatibility for seamless styling integration.
-- ESLint configuration composes Next.js core-web-vitals and TypeScript presets with enhanced ignore patterns for better developer experience.
+- ESLint configuration composes Next.js core-web-vitals and TypeScript presets with enhanced ignore patterns for better developer experience and performance monitoring.
 - Multi-package manager support enables flexible development workflows with npm, yarn, and pnpm compatibility.
 
 **Section sources**
@@ -189,7 +189,7 @@ UseDefaults --> Export
 - [site.config.ts:1-34](file://src/config/site.config.ts#L1-L34)
 
 ### Next.js Configuration with React Compiler
-React Compiler is enabled to optimize component rendering performance with enhanced development experience. The configuration provides automatic optimization for both development and production builds, improving component compilation and runtime performance.
+React Compiler is enabled to optimize component rendering performance with enhanced development experience. The configuration provides automatic optimization for both development and production builds, improving component compilation and runtime performance through advanced code transformation and caching strategies.
 
 **Section sources**
 - [next.config.ts:1-9](file://next.config.ts#L1-L9)
@@ -205,7 +205,7 @@ Key compiler options include:
 **Section sources**
 - [tsconfig.json:1-35](file://tsconfig.json#L1-L35)
 
-### Tailwind CSS and PostCSS Configuration
+### Tailwind CSS v4 and PostCSS Configuration
 Tailwind configuration with enhanced content scanning:
 - Scans components, pages, and app directories for comprehensive class usage detection.
 - Extends theme with primary and secondary color palettes and custom sans font stack.
@@ -213,16 +213,18 @@ Tailwind configuration with enhanced content scanning:
 
 PostCSS configuration with v4 compatibility:
 - Integrates Tailwind plugin via @tailwindcss/postcss for seamless styling pipeline.
+- Supports modern CSS features and advanced optimization techniques.
 
 **Section sources**
 - [tailwind.config.ts:1-46](file://tailwind.config.ts#L1-L46)
 - [postcss.config.mjs:1-8](file://postcss.config.mjs#L1-L8)
 
-### Enhanced ESLint Configuration
+### Enhanced ESLint Configuration with Core-Web-Vitals Integration
 The ESLint configuration composes Next.js core-web-vitals and TypeScript presets with improved ignore patterns:
-- Integrates eslint-config-next/core-web-vitals and eslint-config-next/typescript.
-- Overrides default ignores to include generated and dev types for comprehensive linting.
-- Provides enhanced developer experience with modern web vitals monitoring.
+- Integrates eslint-config-next/core-web-vitals for performance monitoring and optimization suggestions.
+- Overrides default ignores to include generated and dev types for comprehensive linting coverage.
+- Provides enhanced developer experience with modern web vitals monitoring and performance insights.
+- Ensures code quality standards while maintaining performance optimization focus.
 
 **Section sources**
 - [eslint.config.mjs:1-19](file://eslint.config.mjs#L1-L19)
@@ -232,7 +234,7 @@ The project supports multiple package managers for flexible development workflow
 - npm scripts for standard Node.js development workflow.
 - yarn compatibility for teams preferring yarn package manager.
 - pnpm support for teams using pnpm with its space-efficient dependency management.
-- Consistent dependency versions across all package managers.
+- Consistent dependency versions across all package managers with optimized installation strategies.
 
 **Section sources**
 - [package.json:1-39](file://package.json#L1-L39)
@@ -341,7 +343,7 @@ Mock --> End
 - [analyticsService.ts:1-134](file://src/services/analyticsService.ts#L1-L134)
 
 ## Dependency Analysis
-The enhanced configuration layer influences runtime services through comprehensive environment variables and shared defaults with robust error handling. The site configuration provides feature flags and cache policies that affect analytics and UI behavior. Services depend on environment variables for external integrations with multi-package manager support.
+The enhanced configuration layer influences runtime services through comprehensive environment variables and shared defaults with robust error handling. The site configuration provides feature flags and cache policies that affect analytics and UI behavior. Services depend on environment variables for external integrations with multi-package manager support and modern tooling integration.
 
 ```mermaid
 graph LR
@@ -391,6 +393,8 @@ PM --> Dev["Development Tools"]
 - Service-level timeouts (10-second limit) and polling intervals prevent long-running operations from blocking UI updates.
 - Multi-package manager support enables optimized dependency management across different development environments.
 - Enhanced ESLint configuration with core-web-vitals integration improves performance monitoring during development.
+- Modern bundler module resolution optimizes import performance and tree-shaking capabilities.
+- Tailwind CSS v4 provides enhanced performance with improved build optimization and reduced bundle size.
 
 ## Troubleshooting Guide
 Common configuration issues and resolutions with enhanced environment management:
@@ -428,6 +432,17 @@ Common configuration issues and resolutions with enhanced environment management
 - Package manager compatibility: npm, yarn, and pnpm are supported with consistent dependency versions.
 - Development script compatibility across different package managers.
 - Dependency resolution consistency regardless of package manager choice.
+- Build optimization and performance features available across all package managers.
+
+### React Compiler Issues
+- If React Compiler causes build issues, temporarily disable it by setting `reactCompiler: false` in next.config.ts.
+- Ensure all React components are compatible with the compiler's transformation requirements.
+- Monitor for performance regressions after enabling React Compiler.
+
+### ESLint Core-Web-Vitals Issues
+- If ESLint core-web-vitals rules conflict with project code, adjust severity levels in eslint.config.mjs.
+- Ensure performance metrics are properly calculated during development and production builds.
+- Monitor for performance regressions flagged by core-web-vitals rules.
 
 **Section sources**
 - [aiService.ts:1-219](file://src/services/aiService.ts#L1-L219)
@@ -436,9 +451,11 @@ Common configuration issues and resolutions with enhanced environment management
 - [supabase.ts:1-21](file://src/lib/supabase.ts#L1-L21)
 - [site.config.ts:1-34](file://src/config/site.config.ts#L1-L34)
 - [package.json:1-39](file://package.json#L1-L39)
+- [next.config.ts:1-9](file://next.config.ts#L1-L9)
+- [eslint.config.mjs:1-19](file://eslint.config.mjs#L1-L19)
 
 ## Conclusion
-The dashboard-ai project's enhanced configuration system combines centralized site settings with React Compiler optimization, modern TypeScript compilation, comprehensive Tailwind customization, and robust ESLint rules. The system now includes comprehensive environment variable management, multi-package manager support, and enhanced error handling for reliable development and production deployments. Runtime services consume environment variables for AI endpoints, n8n webhooks, and Supabase client initialization with comprehensive fallback mechanisms. By following the documented environment variable requirements, defaults, security practices, and multi-package manager support, teams can reliably operate development and production deployments while maintaining extensibility for new configuration options.
+The dashboard-ai project's enhanced configuration system combines centralized site settings with React Compiler optimization, modern TypeScript compilation, comprehensive Tailwind customization, and robust ESLint rules with core-web-vitals integration. The system now includes comprehensive environment variable management, multi-package manager support, and enhanced error handling for reliable development and production deployments. Runtime services consume environment variables for AI endpoints, n8n webhooks, and Supabase client initialization with comprehensive fallback mechanisms. By following the documented environment variable requirements, defaults, security practices, and multi-package manager support, teams can reliably operate development and production deployments while maintaining extensibility for new configuration options.
 
 ## Appendices
 
@@ -479,6 +496,7 @@ The dashboard-ai project's enhanced configuration system combines centralized si
   - Enhanced dev dependencies with babel-plugin-react-compiler for performance.
   - Tailwind CSS v4 with @tailwindcss/postcss integration.
   - TypeScript 5 with modern compiler options.
+  - ESLint 9 with core-web-vitals integration for performance monitoring.
 
 **Section sources**
 - [package.json:1-39](file://package.json#L1-L39)
@@ -510,6 +528,7 @@ Enhanced guidelines for adding new configuration options:
   - Leverage React Compiler for component optimization.
   - Implement incremental compilation for faster development builds.
   - Use modern bundler module resolution for efficient dependency management.
+  - Monitor performance metrics with core-web-vitals integration.
 
 ### Multi-Package Manager Support Guidelines
 - npm compatibility: Standard Node.js development workflow with npm scripts.
@@ -518,5 +537,4 @@ Enhanced guidelines for adding new configuration options:
 - Consistent development experience across all package managers.
 - Environment variable validation works consistently regardless of package manager choice.
 - Build optimization and performance features available across all package managers.
-
-[No sources needed since this section provides general guidance]
+- ESLint core-web-vitals integration ensures consistent performance monitoring across environments.
